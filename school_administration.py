@@ -50,3 +50,87 @@ if selected == "Home page":
     st.write("⭐⭐⭐⭐⭐Well-organized teaching and learning environment")
     st.write("© 2026 Admissions Are Open")
 
+def student_signup():
+    name,dob,gen=st.columns(3)
+    stu_name = name.text_input("Student Name",placeholder="Enter Your Name")
+    stu_dob = dob.text_input("Student Date of Birth",placeholder="DD/MM/YYYY")
+    gender = gen.selectbox("Gender",["","Male","Female","Transgender"])
+
+    father,mother,guardian = st.columns(3)
+    father_name = father.text_input("Father Name",placeholder="Enter the father name")
+    mother_name = mother.text_input("Mother Name",placeholder="Enter the mother name")
+    guardian_name = guardian.text_input("Guardian Name",placeholder="Enter the Guardian name")
+
+    mail,ph = st.columns(2)
+    email = mail.text_input("E-Mail",placeholder="XXXXXXXX@gmail.com")
+    phone = ph.text_input("Phone Number",placeholder="1234567890")
+
+    sat,cit = st.columns(2)
+    state = sat.text_input("State","Tamil Nadu")
+    city = cit.selectbox("City",["","Chennai","Tiruvallur","Kancheepuram","Chengalpattu","Vellore","Ranipet","Tirupathur","Tiruvannamalai","Viluppuram","Kallakurichi","Cuddalore","Mayiladuthurai","Nagapattinam","Tiruvarur","Thanjavur","Ariyalur","Perambalur","Tiruchirappalli","Karur","Namakkal","Salem","Dharmapuri","Krishnagiri","Erode","Coimbatore","Tiruppur","Nilgiris","Dindigul","Theni","Madurai","Sivagangai","Ramanathapuram","Virudhunagar","Thoothukudi","Tenkasi","Tirunelveli","Kanyakumari"])
+
+    user,password,password1 = st.columns(3)
+    user_name = user.text_input("User Name",placeholder="Enter the UserName")
+    user_password = password.text_input("Password",placeholder="Enter the Password",type="password")
+    user_password1 = password1.text_input("Re-Enter password",placeholder="Again Enter the Password",type="password")
+
+    check = st.checkbox("I Agree the Terms and Conditions")
+    button = st.button("Sign up")
+
+    if button:
+        if not stu_name:
+            st.error("Enter the student name")
+        
+        elif not stu_dob:
+            st.error("Fill the Student Date of Birth")
+
+        elif not gender:
+            st.error("Choose the Gender")
+
+        elif not ((father_name and mother_name) or guardian_name):
+            st.error("Enter Father & Mother name OR Guardian name")
+        
+        elif not email:
+            st.error("Fill the E-Mail id")
+
+        elif not phone:
+            st.error("Fill the phone number")
+
+        elif not state:
+            st.error("Fill the State")
+
+        elif not city:
+            st.error("Choose the city")
+
+        elif not user_name:
+            st.error("Fill the User Name")
+
+        elif not user_password:
+            st.error("Fill the password")
+
+        elif user_password != user_password1:
+            st.error("Re_entered password is Incorrect")
+        
+        elif check != True:
+            st.error("Please accept the terms and conditions")
+
+        else:
+            qry = "insert into student(student_name,dob,gender,father_name,mother_name,guardian_name,email,phone_no,city,state,user_name,user_password)values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
+            val = (stu_name,stu_dob,gender,father_name,mother_name,guardian_name,email,phone,city,state,user_name,user_password)
+            sd.execute(qry,val)
+            con.commit()
+            st.success("Registration is done")
+            st.balloons()
+
+if selected == "Student" and stu_option == "Signup":
+
+    st.markdown('''
+        <div style="text-align: center;">
+        <h3>Student Registration Page</h3><div>''',
+        unsafe_allow_html=True
+        )
+    
+    st.image("stu_registration.png",width=700)
+
+    student_signup()
+
