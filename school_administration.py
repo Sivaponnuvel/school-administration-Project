@@ -108,11 +108,11 @@ def student_signup():
         elif not user_name:
             st.error("Enter the User Name")
 
+        elif not user_password1:
+            st.error("Re_Enter the password")  
+
         elif not user_password:
             st.error("Enter the password")
-
-        elif not user_password1:
-            st.error("Re_Enter the password")   
 
         elif user_password != user_password1:
             st.error("Re_entered password is Incorrect")
@@ -141,3 +141,4 @@ if selected == "Student" and stu_option == "Signup":
     st.image("stu_registration.png",width=700)
 
     student_signup()
+
