@@ -70,8 +70,8 @@ def student_signup():
     city = cit.selectbox("City",["select","Chennai","Tiruvallur","Kancheepuram","Chengalpattu","Vellore","Ranipet","Tirupathur","Tiruvannamalai","Viluppuram","Kallakurichi","Cuddalore","Mayiladuthurai","Nagapattinam","Tiruvarur","Thanjavur","Ariyalur","Perambalur","Tiruchirappalli","Karur","Namakkal","Salem","Dharmapuri","Krishnagiri","Erode","Coimbatore","Tiruppur","Nilgiris","Dindigul","Theni","Madurai","Sivagangai","Ramanathapuram","Virudhunagar","Thoothukudi","Tenkasi","Tirunelveli","Kanyakumari"])
 
     user,password,password1 = st.columns(3)
-    user_name = user.text_input("User Name",placeholder="Enter the UserName")
-    user_password = password.text_input("Password",placeholder="Enter the Password",type="password")
+    user_name = user.text_input("User Name",placeholder="Create the UserName")
+    user_password = password.text_input("Password",placeholder="Create the Password",type="password")
     user_password1 = password1.text_input("Re-Enter password",placeholder="Again Enter the Password",type="password")
 
     check = st.checkbox("I Agree the Terms and Conditions")
@@ -91,22 +91,28 @@ def student_signup():
             st.error("Enter Father & Mother name OR Guardian name")
         
         elif not email:
-            st.error("Fill the E-Mail id")
+            st.error("Enter the E-Mail id")
 
         elif not phone:
-            st.error("Fill the phone number")
+            st.error("Enter the phone number")
 
         elif not state:
-            st.error("Fill the State")
+            st.error("Enter the State")
+
+        elif state != "Tamil Nadu":
+            st.error("state name is wrong")
 
         elif city == "select":
             st.error("Choose the city")
 
         elif not user_name:
-            st.error("Fill the User Name")
+            st.error("Enter the User Name")
 
         elif not user_password:
-            st.error("Fill the password")
+            st.error("Enter the password")
+
+        elif not user_password1:
+            st.error("Re_Enter the password")   
 
         elif user_password != user_password1:
             st.error("Re_entered password is Incorrect")
@@ -135,4 +141,3 @@ if selected == "Student" and stu_option == "Signup":
     st.image("stu_registration.png",width=700)
 
     student_signup()
-
