@@ -54,7 +54,7 @@ def student_signup():
     name,dob,gen=st.columns(3)
     stu_name = name.text_input("Student Name",placeholder="Enter Your Name")
     stu_dob = dob.text_input("Student Date of Birth",placeholder="DD/MM/YYYY")
-    gender = gen.selectbox("Gender",["","Male","Female","Transgender"])
+    gender = gen.selectbox("Gender",["select","Male","Female","Transgender"])
 
     father,mother,guardian = st.columns(3)
     father_name = father.text_input("Father Name",placeholder="Enter the father name")
@@ -67,7 +67,7 @@ def student_signup():
 
     sat,cit = st.columns(2)
     state = sat.text_input("State","Tamil Nadu")
-    city = cit.selectbox("City",["","Chennai","Tiruvallur","Kancheepuram","Chengalpattu","Vellore","Ranipet","Tirupathur","Tiruvannamalai","Viluppuram","Kallakurichi","Cuddalore","Mayiladuthurai","Nagapattinam","Tiruvarur","Thanjavur","Ariyalur","Perambalur","Tiruchirappalli","Karur","Namakkal","Salem","Dharmapuri","Krishnagiri","Erode","Coimbatore","Tiruppur","Nilgiris","Dindigul","Theni","Madurai","Sivagangai","Ramanathapuram","Virudhunagar","Thoothukudi","Tenkasi","Tirunelveli","Kanyakumari"])
+    city = cit.selectbox("City",["select","Chennai","Tiruvallur","Kancheepuram","Chengalpattu","Vellore","Ranipet","Tirupathur","Tiruvannamalai","Viluppuram","Kallakurichi","Cuddalore","Mayiladuthurai","Nagapattinam","Tiruvarur","Thanjavur","Ariyalur","Perambalur","Tiruchirappalli","Karur","Namakkal","Salem","Dharmapuri","Krishnagiri","Erode","Coimbatore","Tiruppur","Nilgiris","Dindigul","Theni","Madurai","Sivagangai","Ramanathapuram","Virudhunagar","Thoothukudi","Tenkasi","Tirunelveli","Kanyakumari"])
 
     user,password,password1 = st.columns(3)
     user_name = user.text_input("User Name",placeholder="Enter the UserName")
@@ -84,7 +84,7 @@ def student_signup():
         elif not stu_dob:
             st.error("Fill the Student Date of Birth")
 
-        elif not gender:
+        elif gender == "select":
             st.error("Choose the Gender")
 
         elif not ((father_name and mother_name) or guardian_name):
@@ -99,7 +99,7 @@ def student_signup():
         elif not state:
             st.error("Fill the State")
 
-        elif not city:
+        elif city == "select":
             st.error("Choose the city")
 
         elif not user_name:
