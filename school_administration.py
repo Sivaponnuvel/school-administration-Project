@@ -119,7 +119,9 @@ def student_signup():
             val = (stu_name,stu_dob,gender,father_name,mother_name,guardian_name,email,phone,city,state,user_name,user_password)
             sd.execute(qry,val)
             con.commit()
+            student_id = sd.lastrowid
             st.success("Registration is done")
+            st.info(f"Your Roll Number is {student_id}")
             st.balloons()
 
 if selected == "Student" and stu_option == "Signup":
