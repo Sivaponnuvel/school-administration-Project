@@ -106,13 +106,13 @@ def student_signup():
             st.error("Choose the city")
 
         elif not user_name:
-            st.error("Enter the User Name")
-
-        elif not user_password1:
-            st.error("Re_Enter the password")  
+            st.error("Enter the User Name") 
 
         elif not user_password:
             st.error("Enter the password")
+
+        elif not user_password1:
+            st.error("Re_Enter the password") 
 
         elif user_password != user_password1:
             st.error("Re_entered password is Incorrect")
