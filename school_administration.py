@@ -172,6 +172,19 @@ def student_login():
             st.success("Login Successfully!")
             st.info(f"Welcome {user_name}")
 
+            st.markdown('''
+                <div style="text-align: center;">
+                <h3>🎓Departments Available for Students</h3><div>''',
+                unsafe_allow_html=True
+                )
+
+            st.markdown("**Departments :-**")
+            qry1 = "select dept_name,section from department"
+            sd.execute(qry1)
+            result = sd.fetchall()
+            table = pd.DataFrame(result,columns=["***Dept_name***","***Section***"])
+            st.table(table)
+
         else:
             st.error("Invalid user")
             
