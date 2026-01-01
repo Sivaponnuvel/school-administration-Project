@@ -129,6 +129,7 @@ def student_signup():
             st.success("Registration is done")
             st.info(f"Your Roll Number is {student_id}")
             st.balloons()
+            
 
 if selected == "Student" and stu_option == "Signup":
 
@@ -142,3 +143,48 @@ if selected == "Student" and stu_option == "Signup":
 
     student_signup()
 
+def get_student(student_id,user_name,user_password):
+    qry  = """select student_id,student_name from student where student_id = %s and user_name = %s and user_password = %s"""
+    val = (student_id,user_name,user_password)
+    sd.execute(qry,val)
+    return sd.fetchone()
+
+def student_login():
+
+    student_id = st.text_input("Roll Number",placeholder="Enter Your Roll Number")
+    user,password = st.columns(2)
+    user_name = user.text_input("User Name",placeholder="Enter Your User Name")
+    user_password = password.text_input("Password",placeholder="Enter Your Password",type="password")
+
+    if not student_id:
+        st.warning("Enter the Roll Number")
+
+    elif not user_name:
+        st.warning("Enter the User Name")
+
+    elif not user_password:
+        st.warning("Enter the Password")
+
+    else:
+        result = get_student(int(student_id),user_name,user_password)
+
+        if result:
+            st.success("Login Successfully!")
+            st.info(f"Welcome {user_name}")
+
+        else:
+            st.error("Invalid user")
+            
+
+
+if selected == "Student" and stu_option == "Login":
+
+    st.markdown('''
+        <div style="text-align: center;">
+        <h3>Student Login Page</h3><div>''',
+        unsafe_allow_html=True
+        )
+    
+    st.image("stu_login.png",width=700)
+
+    student_login()
