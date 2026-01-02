@@ -315,3 +315,57 @@ if selected == "Teacher" and tec_option == "Signup":
 
     teacher_signup()
 
+def get_teacher(teacher_name,teacher_password):
+    qry  = """select teacher_name from teachers where teacher_name = %s and teacher_password = %s"""
+    val = (teacher_name,teacher_password)
+    sd.execute(qry,val)
+    return sd.fetchone()
+
+def teacher_login():
+
+    teacher_name = st.text_input("Full name",placeholder="Enter Your Full Name")
+    teacher_password = st.text_input("Password",placeholder="Enter Your Password",type="password")
+
+    if not teacher_name:
+        st.warning("Enter the User Name")
+    elif not teacher_password:
+        st.warning("Enter the Password")
+
+    else:
+        result = get_teacher(teacher_name,teacher_password)
+
+        if result:
+            st.success("Login Successfully!✅")
+            st.info(f"Hello {teacher_name}👋")
+
+            user = st.selectbox("**Select an option**",["None","View Your Details","View Student Details"])
+
+            if user == "View Your Details":
+                name = teacher_name
+                qry = """select teacher_name,sub_name from teachers where teacher_name = %s"""
+                sd.execute(qry,(name,))
+                data = sd.fetchall()
+                table = pd.DataFrame(data,columns=["**Teacher Name**","**Subject Name**"])
+                st.table(table)
+
+            elif user == "View Student Details":
+                qry3 = """select Roll_No,student_name,dept_name,section from student_details"""
+                sd.execute(qry3)
+                data = sd.fetchall()
+                table2 = pd.DataFrame(data,columns=["****Roll No****", "****Student Name****", "****Department****", "****Section****"])
+                st.table(table2)
+
+        else:
+            st.error("Invalid❌")
+
+if selected == "Teacher" and tec_option == "Login":
+
+    st.markdown('''
+        <div style="text-align: center;">
+        <h3>Teacher Login Page</h3><div>''',
+        unsafe_allow_html=True
+        )
+    
+    st.image("tech_login.png",width=700)
+
+    teacher_login()
