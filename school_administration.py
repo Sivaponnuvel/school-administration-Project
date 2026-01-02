@@ -264,3 +264,53 @@ if selected == "Student" and stu_option == "Login":
     st.image("stu_login.png",width=700)
 
     student_login()
+
+def teacher_signup():
+    name,phone,subject = st.columns(3)
+    teach_name = name.text_input("Full Name",placeholder="Enter Your Name")
+    phone_no = phone.text_input("Phone Number",placeholder="9876543210")
+    subject_name = subject.text_input("Subject Name",placeholder="Enter Your Subject Name")
+
+    password,password1 = st.columns(2)
+    teach_pwd = password.text_input("Password",placeholder="Create the Password",type="password")
+    teach_pwd1 = password1.text_input("Re-Enter password",placeholder="Again Enter the Password",type="password")
+
+    check = st.checkbox("I Agree to the Terms and Conditions")
+    button = st.button("Sign up")
+
+    if button:
+        if not teach_name:
+            st.error("Enter the your name")
+        elif not phone_no:
+            st.error("Enter the Phone Number")
+        elif not subject_name:
+            st.error("Enter the Subject Name")
+        elif not teach_pwd:
+            st.error("Enter the Password")
+        elif not teach_pwd1:
+            st.error("Re-enter the pasword")
+        elif teach_pwd != teach_pwd1:
+            st.error("Re_entered password is Incorrect")
+        elif check != True:
+            st.error("Please accept the terms and conditions")
+        
+        else:
+            qry = "insert into teachers(teacher_name,phone_no,sub_name,teacher_password)values(%s,%s,%s,%s)"
+            val = (teach_name,phone_no,subject_name,teach_pwd)
+            sd.execute(qry,val)
+            con.commit()
+            st.success("Registration completed successfully!")
+            st.info(f"Welcome {teach_name}✨")
+            st.balloons()
+
+if selected == "Teacher" and tec_option == "Signup":
+
+    st.markdown('''
+        <div style="text-align: center;">
+        <h3>Teacher Registration Page</h3><div>''',
+        unsafe_allow_html=True
+        )
+    
+    st.image("tech_registration.png",width=700)
+
+    teacher_signup()
