@@ -327,7 +327,7 @@ def teacher_login():
     teacher_password = st.text_input("Password",placeholder="Enter Your Password",type="password")
 
     if not teacher_name:
-        st.warning("Enter the User Name")
+        st.warning("Enter the Name")
     elif not teacher_password:
         st.warning("Enter the Password")
 
