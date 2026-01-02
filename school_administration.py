@@ -28,7 +28,7 @@ with st.sidebar:
 if selected == "Home page":
     st.markdown('''
         <div style="text-align: center;">
-            <h3>Welcome to  Our ABC School </h3>
+            <h3>Welcome to Our ABC School </h3>
         </div>''',
      unsafe_allow_html=True
     )
@@ -74,7 +74,7 @@ def student_signup():
     user_password = password.text_input("Password",placeholder="Create the Password",type="password")
     user_password1 = password1.text_input("Re-Enter password",placeholder="Again Enter the Password",type="password")
 
-    check = st.checkbox("I Agree the Terms and Conditions")
+    check = st.checkbox("I Agree to the Terms and Conditions")
     button = st.button("Sign up")
 
     if button:
@@ -100,7 +100,7 @@ def student_signup():
             st.error("Enter the State")
 
         elif state != "Tamil Nadu":
-            st.error("state name is wrong")
+            st.error("State name is incorrect")
 
         elif city == "select":
             st.error("Choose the city")
@@ -126,7 +126,7 @@ def student_signup():
             sd.execute(qry,val)
             con.commit()
             student_id = sd.lastrowid
-            st.success("Registration is done")
+            st.success("Registration completed successfully")
             st.info(f"Your Roll Number is {student_id}")
             st.balloons()
             
@@ -214,7 +214,40 @@ def student_login():
                         sd.execute(qry2,val)
                         con.commit()
                         st.success("Department & Section saved successfully ✅")
-                        
+
+            user = st.selectbox("**Select an option**",["None","Student Details","Change Department"])
+            if user == "Student Details":
+                roll = student_id
+                qry3 = """select Roll_No,student_name,dept_name,section from student_details where Roll_No = %s"""
+                sd.execute(qry3,(roll,))
+                data = sd.fetchall()
+                table2 = pd.DataFrame(data,columns=["****Roll No****", "****Student Name****", "****Department****", "****Section****"])
+                st.table(table2)
+
+            elif user == "Change Department":
+                st.markdown("***🔄 Change Your Department***")
+                selection1 = st.selectbox("**Select the New Department**",["None","A(Science)","B(Commerce)","C(Arts)"],key="Change dept")
+                check = st.checkbox("I Agree")
+                if st.button("Confirm"):
+                    if check != True:
+                        st.error("Accept the terms and conditions")
+                    elif selection1 == "None":
+                        st.warning("Please select section")
+                    else:
+                        if selection1 == "A(Science)":
+                            dept1 = "Science"
+                            sec1 = "A"
+                        elif selection1 == "B(Commerce)":
+                            dept1 = "Commerce"
+                            sec1 = "B"
+                        elif selection1 == "C(Arts)":
+                            dept1 = "Arts"
+                            sec1 = "C"
+                        qry4 = """update student_details set dept_name = %s, section = %s where Roll_No = %s"""
+                        sd.execute(qry4,(dept1,sec1,roll_no))
+                        con.commit()
+                        st.success("✅ Department changed successfully") 
+
         else:
             st.error("Invalid user❌")
             
