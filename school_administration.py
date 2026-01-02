@@ -169,8 +169,10 @@ def student_login():
         result = get_student(int(student_id),user_name,user_password)
 
         if result:
+            roll_no = result[0]
+            stu_name = result[1]
             st.success("Login Successfully!")
-            st.info(f"Welcome {user_name}")
+            st.info(f"Welcome {stu_name}")
 
             st.markdown('''
                 <div style="text-align: center;">
@@ -185,8 +187,36 @@ def student_login():
             table = pd.DataFrame(result,columns=["***Dept_name***","***Section***"])
             st.table(table)
 
+            selection = st.radio("**Select the Department**",["None","A(Science)","B(Commerce)","C(Arts)"])
+            if st.button("Confirm Department"):
+                if selection == "None":
+                    st.error("Please select a valid section")
+                else:
+                    if selection == "A(Science)":
+                        dept = "Science"
+                        sec = "A"
+                    elif selection == "B(Commerce)":
+                        dept = "Commerce"
+                        sec = "B"
+                    elif selection == "C(Arts)":
+                        dept = "Arts"
+                        sec = "C"
+
+                    chk = "select * from student_details where Roll_No = %s"
+                    sd.execute(chk,(roll_no,))
+                    chk_result = sd.fetchone()
+                    if chk_result:
+                        st.error("⚠️ You have already selected your department")
+                    
+                    else:
+                        qry2 = """insert into student_details(Roll_No,student_name,dept_name,section)values(%s,%s,%s,%s)"""
+                        val = (roll_no,stu_name,dept,sec)
+                        sd.execute(qry2,val)
+                        con.commit()
+                        st.success("Department & Section saved successfully ✅")
+                        
         else:
-            st.error("Invalid user")
+            st.error("Invalid user❌")
             
 
 
