@@ -4,6 +4,8 @@ import streamlit as st
 from streamlit_option_menu import option_menu
 import pandas as pd
 
+# connect the database
+
 con = mysql.connector.connect(
         host="localhost",
         username="root",
@@ -13,6 +15,8 @@ con = mysql.connector.connect(
 sd = con.cursor()
 
 st.sidebar.title("School Administration")
+
+# Sidebar
 
 with st.sidebar:
     selected = option_menu("Main Menu",["Home page","Student","Teacher"])
@@ -24,6 +28,8 @@ with st.sidebar:
     elif selected == "Teacher":
         st.sidebar.title("Teacher")
         tec_option = option_menu("",["Signup","Login"])
+
+# Home page
 
 if selected == "Home page":
     st.markdown('''
@@ -49,6 +55,8 @@ if selected == "Home page":
     st.write("⭐⭐⭐⭐ Active student participation in academics & sports")
     st.write("⭐⭐⭐⭐⭐Well-organized teaching and learning environment")
     st.write("© 2026 Admissions Are Open")
+
+#student signup page
 
 def student_signup():
     name,dob,gen=st.columns(3)
@@ -142,6 +150,8 @@ if selected == "Student" and stu_option == "Signup":
     st.image("stu_registration.png",width=700)
 
     student_signup()
+
+# Student Login page
 
 def get_student(student_id,user_name,user_password):
     qry  = """select student_id,student_name from student where student_id = %s and user_name = %s and user_password = %s"""
@@ -265,6 +275,8 @@ if selected == "Student" and stu_option == "Login":
 
     student_login()
 
+# Teacher signup page
+
 def teacher_signup():
     name,phone,subject = st.columns(3)
     teacher_name = name.text_input("Full Name",placeholder="Enter Your Name")
@@ -280,7 +292,7 @@ def teacher_signup():
 
     if button:
         if not teacher_name:
-            st.error("Enter the your name")
+            st.error("Enter your name")
         elif not phone_no:
             st.error("Enter the Phone Number")
         elif not subject_name:
@@ -288,9 +300,9 @@ def teacher_signup():
         elif not teacher_password:
             st.error("Enter the Password")
         elif not teach_pwd1:
-            st.error("Re-enter the pasword")
+            st.error("Re-enter the password")
         elif teacher_password != teach_pwd1:
-            st.error("Re_entered password is Incorrect")
+            st.error("Re_entered password is incorrect")
         elif check != True:
             st.error("Please accept the terms and conditions")
         
@@ -315,6 +327,8 @@ if selected == "Teacher" and tec_option == "Signup":
 
     teacher_signup()
 
+# Teacher Login page
+
 def get_teacher(teacher_name,teacher_password):
     qry  = """select teacher_name from teachers where teacher_name = %s and teacher_password = %s"""
     val = (teacher_name,teacher_password)
@@ -323,7 +337,7 @@ def get_teacher(teacher_name,teacher_password):
 
 def teacher_login():
 
-    teacher_name = st.text_input("Full name",placeholder="Enter Your Full Name")
+    teacher_name = st.text_input("Full Name",placeholder="Enter Your Full Name")
     teacher_password = st.text_input("Password",placeholder="Enter Your Password",type="password")
 
     if not teacher_name:
