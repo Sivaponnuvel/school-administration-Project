@@ -229,10 +229,10 @@ def student_login():
                 selection1 = st.selectbox("**Select the New Department**",["None","A(Science)","B(Commerce)","C(Arts)"],key="Change dept")
                 check = st.checkbox("I Agree")
                 if st.button("Confirm"):
-                    if check != True:
-                        st.error("Accept the terms and conditions")
-                    elif selection1 == "None":
+                    if selection1 == "None":
                         st.warning("Please select section")
+                    elif check != True:
+                        st.error("Accept the terms and conditions")
                     else:
                         if selection1 == "A(Science)":
                             dept1 = "Science"
